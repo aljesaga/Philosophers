@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   anlytics.c                                         :+:      :+:    :+:   */
+/*   analytics.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 14:50:24 by alsanche          #+#    #+#             */
-/*   Updated: 2022/04/03 17:01:59 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/04/22 19:40:50 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ int	arv_analytics(char **times, t_table *table)
 		assign_arv(times[i], table, i);
 		i++;
 	}
+	table->die = 1;
 	return (1);
 }
