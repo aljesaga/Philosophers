@@ -64,7 +64,7 @@ int	arv_analytics(char **times, t_table *table)
 		{
 			if (times[i][x] < 48 || times[i][x] > 57)
 			{
-				printf("Error\narv it is not numeric\n");
+				printf("Error\n Arv it is not numeric\n");
 				return (0);
 			}
 			x++;
