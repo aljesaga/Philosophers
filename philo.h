@@ -6,7 +6,7 @@
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 15:13:47 by alsanche          #+#    #+#             */
-/*   Updated: 2022/04/22 19:55:00 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/05/17 15:11:32 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_philo
 	long			n_foods;
 	int				l_fork;
 	int				r_fork;
+	pthread_t		philo_id;
 	struct s_table	*table;
 }	t_philo;
 
@@ -47,16 +48,14 @@ int		arv_analytics(char **times, t_table *table);
 
 /* philo */
 
-void	philo_rutine(t_philo *philo);
+void	*philo_rutine(void *void_philo);
 void	whit_out_limit(t_table *init);
 int		main(int arc, char **arv);
 
 /* actions */
 
-int		take_the_forks(t_philo *philo);
-int		eating(t_philo *philo);
-int		put_the_forks(t_philo *philo);
-int		sleeping(t_philo *philo);
-int		thinking(t_philo *philo);
+void	eating(t_philo *philo);
+void	sleeping(t_philo *philo);
+void	thinking(t_philo *philo);
 
 #endif
