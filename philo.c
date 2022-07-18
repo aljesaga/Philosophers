@@ -6,7 +6,7 @@
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 14:39:36 by alsanche          #+#    #+#             */
-/*   Updated: 2022/05/17 15:11:30 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/07/05 12:14:32 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ void	*philo_rutine(void *void_philo)
 	t_philo	*philo;
 
 	philo = (t_philo *)void_philo;
-	if (philo->name % 2 == 1)
+	if (philo->name % 2)
 		usleep(50);
+	philo->time_init = time_now();
 	while (philo->table->die == 0)
 	{
 		eating(philo);
@@ -65,13 +66,15 @@ void	whit_out_limit(t_table *init)
 	while (i < init->all_philos)
 	{
 		pthread_create(&(init->philo[i].philo_id), NULL, philo_rutine, &(init->philo[i]));
+		if (its_a_life(init) == 0)
+			break ;
 		i++;
 	}
 }
 
 int	main(int arc, char **arv)
 {
-	t_table		table;
+	t_table			table;
 
 	if (arc > 4 && arc < 7)
 	{

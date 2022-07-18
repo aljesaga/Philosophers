@@ -6,7 +6,7 @@
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 15:13:47 by alsanche          #+#    #+#             */
-/*   Updated: 2022/05/17 15:11:32 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/07/05 12:07:09 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 # include <unistd.h>
 # include <pthread.h>
 # include <stdlib.h>
+# include <sys/time.h>
 
 typedef struct s_philo
 {
 	int				time_rest;
+	long long		time_init;
 	int				name;
 	long			n_foods;
 	int				l_fork;
@@ -36,7 +38,6 @@ typedef struct s_table
 	long				time_to_eat;
 	long				time_to_sleep;
 	long				n_of_foods;
-	long				total_time;
 	long				die;
 	pthread_mutex_t		*fork;
 	t_philo				*philo;
@@ -44,18 +45,24 @@ typedef struct s_table
 
 /* analytics */
 
-int		arv_analytics(char **times, t_table *table);
+int			arv_analytics(char **times, t_table *table);
 
 /* philo */
 
-void	*philo_rutine(void *void_philo);
-void	whit_out_limit(t_table *init);
-int		main(int arc, char **arv);
+void		*philo_rutine(void *void_philo);
+void		whit_out_limit(t_table *init);
+int			main(int arc, char **arv);
 
 /* actions */
 
-void	eating(t_philo *philo);
-void	sleeping(t_philo *philo);
-void	thinking(t_philo *philo);
+void		eating(t_philo *philo);
+void		sleeping(t_philo *philo);
+void		thinking(t_philo *philo);
+
+/* philo_utils */
+
+int			its_a_life(t_table *init);
+long long	time_now(void);
+void		print_action(t_philo *philo, char *msn);
 
 #endif

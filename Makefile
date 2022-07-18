@@ -6,21 +6,23 @@
 #    By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 18:29:44 by alsanche          #+#    #+#              #
-#    Updated: 2022/04/22 18:29:45 by alsanche         ###   ########lyon.fr    #
+#    Updated: 2022/07/04 11:55:18 by alsanche         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRC = philo.c analytics.c actions.c
+SRC = philo.c analytics.c actions.c \
+	philo_utils.c
 
 OBJS = $(SRC:%.c=%.o)
 
 CC = gcc
 
-DFLAGS = -fsanitize=address
+DFLAGS = -fsanitize=address -g3
 
-WFLAGS = -Wall -Wextra -Werror -g3
+WFLAGS = -Wall -Wextra -Werror
+WFLAGS += $(DFLAGS)
 
 all: $(NAME)
 
@@ -28,10 +30,11 @@ $(NAME): $(OBJS)
 		$(CC) $^ -o $@ $(CFLAGS) $(DFLAGS)
 
 clean:
-		rm -rf $(OBJS)
+	@	rm -rf $(OBJS)
 
 fclean:
-		rm -f $(NAME)
+	@	make clean
+	@	rm -f $(NAME)
 
 re: fclean all
 
