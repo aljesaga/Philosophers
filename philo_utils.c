@@ -6,7 +6,7 @@
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 16:47:00 by alsanche          #+#    #+#             */
-/*   Updated: 2022/07/05 11:48:04 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/08/02 14:09:30 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	its_a_life(t_table *init)
 	return (1);
 }
 
-long long	time_now(void)
+size_t	time_now(void)
 {
 	struct timeval	tm;
 
@@ -31,7 +31,11 @@ long long	time_now(void)
 
 void	print_action(t_philo *philo, char *msn)
 {
-	printf("[%lld] ", time_now() - philo->time_init);
-	printf("%d: ", philo->name);
-	printf("%s\n", msn);
+	//if (philo->table->die == 0)
+//	{
+		printf("[%lu] ", (time_now() - philo->table->t_init));
+		printf("%d: ", philo->name);
+		printf("%s\n", msn);
+	//}
+
 }

@@ -6,16 +6,16 @@
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 14:50:24 by alsanche          #+#    #+#             */
-/*   Updated: 2022/05/17 14:08:46 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/08/02 13:33:53 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static long	ft_long_atoi(const char *a)
+static int	ft_atoi(const char *a)
 {
-	long long	n;
-	long long	sig;
+	int	n;
+	int	sig;
 
 	n = 0;
 	sig = 1;
@@ -40,15 +40,15 @@ static long	ft_long_atoi(const char *a)
 static void	assign_arv(char *times, t_table *table, int check)
 {
 	if (check == 1)
-		table->all_philos = ft_long_atoi(times);
+		table->all_philos = ft_atoi(times);
 	else if (check == 2)
-		table->time_to_die = ft_long_atoi(times);
+		table->time_to_die = ft_atoi(times);
 	else if (check == 3)
-		table->time_to_eat = ft_long_atoi(times);
+		table->time_to_eat = ft_atoi(times);
 	else if (check == 4)
-		table->time_to_sleep = ft_long_atoi(times);
+		table->time_to_sleep = ft_atoi(times);
 	else if (check == 5)
-		table->n_of_foods = ft_long_atoi(times);
+		table->n_of_foods = ft_atoi(times);
 }
 
 int	arv_analytics(char **times, t_table *table)
@@ -72,6 +72,9 @@ int	arv_analytics(char **times, t_table *table)
 		assign_arv(times[i], table, i);
 		i++;
 	}
+	if (times[5] == NULL)
+		table->n_of_foods = -1;
 	table->die = 0;
+	table->t_init = time_now();
 	return (1);
 }
