@@ -6,7 +6,7 @@
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 14:39:36 by alsanche          #+#    #+#             */
-/*   Updated: 2022/08/02 14:10:48 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/08/03 18:28:39 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ static void	init_philo(t_philo **philo, t_table *table_s)
 	{
 		philo[i] = malloc(sizeof(t_philo));
 		philo[i]->id = malloc(sizeof(pthread_t));
-		philo[i]->n_foods = table_s->n_of_foods;
+		philo[i]->n_foods = 0;
 		philo[i]->name = i + 1;
 		philo[i]->table = table_s;
+		philo[i]->time_init = table_s->t_init;
 		philo[i]->last_eat = table_s->t_init;
 		pthread_mutex_init(&philo[i]->fork, NULL);
 		pthread_mutex_init(&philo[i]->print, NULL);
@@ -50,9 +51,11 @@ void	whit_out_limit(t_table *init)
 	i = -1;
 	while (++i < init->all_philos)
 		pthread_create(&philo[i]->id, NULL, philo_run, philo[i]);
-//	if (its_a_life(init) == 0)
-	//printf("philo ID is dead");
+	its_a_life(philo, init);
 	i = -1;
+	while (++i < init->all_philos)
+		pthread_join(philo[i]->id, NULL);
+	exit (0);
 }
 
 int	main(int arc, char **arv)
@@ -62,12 +65,7 @@ int	main(int arc, char **arv)
 	if (arc > 4 && arc < 7)
 	{
 		if (arv_analytics(arv, &table) == 1)
-		{
-			if (arc == 5)
-				whit_out_limit(&table);
-			else
-				whit_out_limit(&table);
-		}
+			whit_out_limit(&table);
 	}
 	else
 		printf("Error\n Argimentos insuficientes\n");

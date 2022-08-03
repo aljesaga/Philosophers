@@ -6,7 +6,7 @@
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 14:50:24 by alsanche          #+#    #+#             */
-/*   Updated: 2022/08/02 13:33:53 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/08/03 17:19:52 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,24 @@ int	arv_analytics(char **times, t_table *table)
 	int	i;
 	int	x;
 
-	i = 1;
-	while (times[i])
+	i = 0;
+	while (times[++i])
 	{
-		x = 0;
-		while (times[i][x] != '\0')
+		x = -1;
+		while (times[i][++x] != '\0')
 		{
 			if (times[i][x] < 48 || times[i][x] > 57)
 			{
-				printf("Error\n Arv it is not numeric\n");
+				printf("Error\n argument it is not numeric\n");
 				return (0);
 			}
-			x++;
 		}
 		assign_arv(times[i], table, i);
-		i++;
 	}
 	if (times[5] == NULL)
 		table->n_of_foods = -1;
 	table->die = 0;
 	table->t_init = time_now();
+	pthread_mutex_init(&table->life, NULL);
 	return (1);
 }
