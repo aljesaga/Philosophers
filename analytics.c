@@ -6,7 +6,7 @@
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 14:50:24 by alsanche          #+#    #+#             */
-/*   Updated: 2022/08/03 17:19:52 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/08/04 16:10:36 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ int	arv_analytics(char **times, t_table *table)
 	table->die = 0;
 	table->t_init = time_now();
 	pthread_mutex_init(&table->life, NULL);
+	pthread_mutex_init(&table->print, NULL);
 	return (1);
 }

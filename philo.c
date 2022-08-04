@@ -6,7 +6,7 @@
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 14:39:36 by alsanche          #+#    #+#             */
-/*   Updated: 2022/08/03 18:28:39 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/08/04 17:36:26 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	init_philo(t_philo **philo, t_table *table_s)
 		philo[i]->time_init = table_s->t_init;
 		philo[i]->last_eat = table_s->t_init;
 		pthread_mutex_init(&philo[i]->fork, NULL);
-		pthread_mutex_init(&philo[i]->print, NULL);
 	}
 	i = -1;
 	while (++i < table_s->all_philos - 1)
@@ -37,25 +36,39 @@ static void	init_philo(t_philo **philo, t_table *table_s)
 	philo[i]->next = philo[0];
 }
 
-void	whit_out_limit(t_table *init)
+void	free_exit(t_table *table, t_philo **philo)
+{
+	int	i;
+
+	i = table->all_philos;
+	pthread_mutex_destroy(&table->print);
+	pthread_mutex_destroy(&table->life);
+	while (--i > -1)
+	{
+		pthread_mutex_destroy(&philo[i]->fork);
+		free(philo[i]->id);
+		free(philo[i]);
+	}
+}
+
+void	whit_out_limit(t_table *table)
 {
 	int		i;
 	t_philo	**philo;
 
-	if (init->all_philos <= 1)
-		exit (0);
-	philo = malloc(sizeof(t_philo *) * init->all_philos);
+	philo = malloc(sizeof(t_philo *) * table->all_philos);
 	if (!philo)
 		exit (127);
-	init_philo(philo, init);
+	init_philo(philo, table);
 	i = -1;
-	while (++i < init->all_philos)
-		pthread_create(&philo[i]->id, NULL, philo_run, philo[i]);
-	its_a_life(philo, init);
+	while (++i < table->all_philos)
+		pthread_create(philo[i]->id, NULL, philo_run, philo[i]);
+	its_a_life(philo, table);
 	i = -1;
-	while (++i < init->all_philos)
-		pthread_join(philo[i]->id, NULL);
-	exit (0);
+	while (++i < table->all_philos)
+		pthread_join(*philo[i]->id, NULL);
+	free_exit(table, philo);
+	free(philo);
 }
 
 int	main(int arc, char **arv)

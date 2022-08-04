@@ -6,7 +6,7 @@
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 17:46:29 by alsanche          #+#    #+#             */
-/*   Updated: 2022/08/03 18:36:05 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/08/04 17:14:10 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,30 @@ static void	add_time(t_philo *philo, size_t t_add)
 	{
 		if (time_now() - time > t_add)
 			break ;
-		usleep(50);
 	}
 }
 
 void	actions(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->fork);
+	print_action(philo, "has take a fork", "\033[1;33m");
+	if (philo->table->all_philos == 1)
+	{
+		print_action(philo, "is die", "\033[1;31m");
+		philo->table->die = 1;
+		pthread_mutex_unlock(&philo->fork);
+		return ;
+	}
 	pthread_mutex_lock(&philo->next->fork);
-	print_action(philo, "has take a fork");
+	print_action(philo, "has take a fork", "\033[1;33m");
+	print_action(philo, "is eating", "\033[1;32m");
+	if (philo->n_foods != -1)
+		philo->n_foods++;
+	printf("-----%d-----\n", philo->n_foods);
 	philo->last_eat = time_now();
-	print_action(philo, "is eating");
 	add_time(philo, philo->table->time_to_eat);
-	pthread_mutex_unlock(&philo->fork);
 	pthread_mutex_unlock(&philo->next->fork);
-	print_action(philo, "is sleeping");
-	add_time(philo, philo->table->time_to_sleep);
-	print_action(philo, "is thinking");
+	pthread_mutex_unlock(&philo->fork);
 }
 
 void	*philo_run(void *void_philo)
@@ -46,20 +53,22 @@ void	*philo_run(void *void_philo)
 	t_philo	*philo;
 
 	philo = (t_philo *)void_philo;
-	if (!philo->name % 2)
-		usleep(50);
+	if (philo->name % 2 == 0)
+		usleep(1000);
 	while (1)
 	{
-		pthread_mutex_lock(&philo->table->life);
-		if (philo->table->die == 1)
-		{
-			pthread_mutex_unlock(&philo->table->life);
-			break ;
-		}
-		pthread_mutex_unlock(&philo->table->life);
-		if (philo->n_foods == philo->table->n_of_foods)
-			break ;
+		if (philo->table->die)
+			return (NULL);
 		actions(philo);
+		if (philo->n_foods == philo->table->n_of_foods)
+			return (NULL);
+		if (philo->table->die)
+			return (NULL);
+		print_action(philo, "mis sleeping", "\033[1;36m");
+		add_time(philo, philo->table->time_to_sleep);
+		if (philo->table->die)
+			return (NULL);
+		print_action(philo, "is thinking", "\033[1;35m");
 	}
 	return (NULL);
 }

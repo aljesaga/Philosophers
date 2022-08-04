@@ -6,7 +6,7 @@
 #    By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 18:29:44 by alsanche          #+#    #+#              #
-#    Updated: 2022/08/01 10:40:17 by alsanche         ###   ########lyon.fr    #
+#    Updated: 2022/08/04 17:36:31 by alsanche         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ WFLAGS += $(DFLAGS)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-		$(CC) $^ -o $@ $(CFLAGS) $(DFLAGS)
+		$(CC) $^ -o $@ $(CFLAGS)
 
 clean:
 	@	rm -rf $(OBJS)
