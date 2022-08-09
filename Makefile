@@ -6,7 +6,7 @@
 #    By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 18:29:44 by alsanche          #+#    #+#              #
-#    Updated: 2022/08/04 17:36:31 by alsanche         ###   ########lyon.fr    #
+#    Updated: 2022/08/09 12:08:45 by alsanche         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJS = $(SRC:%.c=%.o)
 
 CC = gcc
 
-DFLAGS = -fsanitize=address -g3
+DFLAGS = -fsanitize=threads -g3
 
 WFLAGS = -Wall -Wextra -Werror
 WFLAGS += $(DFLAGS)

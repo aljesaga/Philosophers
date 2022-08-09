@@ -6,7 +6,7 @@
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 16:47:00 by alsanche          #+#    #+#             */
-/*   Updated: 2022/08/04 17:41:08 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/08/09 13:21:01 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,11 @@ size_t	time_now(void)
 
 void	its_a_life(t_philo **philo, t_table *table)
 {
-	size_t	p;
 	int		i;
 
 	i = 0;
 	while (table->die == 0 && i < table->all_philos)
 	{
-		if (i == table->all_philos)
-			i = 0;
 		if (philo[table->all_philos - 1]->n_foods == table->n_of_foods)
 			table->die = 1;
 		pthread_mutex_lock(&table->life);
@@ -37,17 +34,22 @@ void	its_a_life(t_philo **philo, t_table *table)
 		{
 			print_action(philo[i], "is die", "\033[1;31m");
 			table->die = 1;
-			pthread_mutex_unlock(&table->life);
+			break ;
 		}
 		pthread_mutex_unlock(&table->life);
 		i++;
+		if (i == table->all_philos)
+			i = 0;
 	}
 }
 
 void	print_action(t_philo *philo, char *msn, char *cmyk)
 {
 	pthread_mutex_lock(&philo->table->print);
-	printf("%s[%lu] %d: ", cmyk, (time_now() - philo->time_init), philo->name);
-	printf("%s%s\n", cmyk, msn);
+	if (philo->table->die != 1)
+	{
+		printf("%s[%lu]", cmyk, (time_now() - philo->time_init));
+		printf(" %d: %s%s\n", philo->name, cmyk, msn);
+	}
 	pthread_mutex_unlock(&philo->table->print);
 }

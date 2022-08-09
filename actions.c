@@ -6,7 +6,7 @@
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 17:46:29 by alsanche          #+#    #+#             */
-/*   Updated: 2022/08/04 17:14:10 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/08/09 13:03:23 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ static void	add_time(t_philo *philo, size_t t_add)
 {
 	size_t	time;
 
-	philo->last_eat += t_add;
 	time = time_now();
 	while (philo->table->die == 0)
 	{
-		if (time_now() - time > t_add)
+		if (time_now() - time >= t_add)
 			break ;
 	}
 }
@@ -41,7 +40,6 @@ void	actions(t_philo *philo)
 	print_action(philo, "is eating", "\033[1;32m");
 	if (philo->n_foods != -1)
 		philo->n_foods++;
-	printf("-----%d-----\n", philo->n_foods);
 	philo->last_eat = time_now();
 	add_time(philo, philo->table->time_to_eat);
 	pthread_mutex_unlock(&philo->next->fork);
@@ -54,19 +52,19 @@ void	*philo_run(void *void_philo)
 
 	philo = (t_philo *)void_philo;
 	if (philo->name % 2 == 0)
-		usleep(1000);
-	while (1)
+		usleep(100);
+	while (philo->table->die != 1)
 	{
-		if (philo->table->die)
+		if (philo->table->die == 1)
 			return (NULL);
 		actions(philo);
 		if (philo->n_foods == philo->table->n_of_foods)
 			return (NULL);
-		if (philo->table->die)
+		if (philo->table->die == 1)
 			return (NULL);
 		print_action(philo, "mis sleeping", "\033[1;36m");
 		add_time(philo, philo->table->time_to_sleep);
-		if (philo->table->die)
+		if (philo->table->die == 1)
 			return (NULL);
 		print_action(philo, "is thinking", "\033[1;35m");
 	}
