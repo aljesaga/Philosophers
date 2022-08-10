@@ -6,12 +6,20 @@
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 15:13:47 by alsanche          #+#    #+#             */
-/*   Updated: 2022/08/04 17:30:47 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/08/10 13:35:30 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
+
+# define C "\033[1;36m"
+# define M "\033[1;35m"
+# define Y "\033[1;33m"
+# define R "\033[1;31m"
+# define G "\033[1;32m"
+# define W "\033[1;37m"
+# define RESET "\033[0m"
 
 # include <unistd.h>
 # include <stdio.h>
