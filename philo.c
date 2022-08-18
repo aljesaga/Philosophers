@@ -6,7 +6,7 @@
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 14:39:36 by alsanche          #+#    #+#             */
-/*   Updated: 2022/08/04 17:36:26 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/08/18 16:35:14 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static void	init_philo(t_philo **philo, t_table *table_s)
 	{
 		philo[i] = malloc(sizeof(t_philo));
 		philo[i]->id = malloc(sizeof(pthread_t));
-		philo[i]->n_foods = 0;
+		if (table_s->n_of_foods != -1)
+			philo[i]->n_foods = 0;
 		philo[i]->name = i + 1;
 		philo[i]->table = table_s;
-		philo[i]->time_init = table_s->t_init;
 		philo[i]->last_eat = table_s->t_init;
 		pthread_mutex_init(&philo[i]->fork, NULL);
 	}
@@ -58,7 +58,11 @@ void	whit_out_limit(t_table *table)
 
 	philo = malloc(sizeof(t_philo *) * table->all_philos);
 	if (!philo)
-		exit (127);
+	{
+		pthread_mutex_destroy(&table->print);
+		pthread_mutex_destroy(&table->life);
+		return ;
+	}
 	init_philo(philo, table);
 	i = -1;
 	while (++i < table->all_philos)

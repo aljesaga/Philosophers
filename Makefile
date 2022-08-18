@@ -6,7 +6,7 @@
 #    By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/22 18:29:44 by alsanche          #+#    #+#              #
-#    Updated: 2022/08/09 12:08:45 by alsanche         ###   ########lyon.fr    #
+#    Updated: 2022/08/10 14:55:30 by alsanche         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,15 +19,12 @@ OBJS = $(SRC:%.c=%.o)
 
 CC = gcc
 
-DFLAGS = -fsanitize=threads -g3
-
-WFLAGS = -Wall -Wextra -Werror
-WFLAGS += $(DFLAGS)
+WFLAGS = -Wall -Wextra -Werror -pthread #-g3 -fsanitize=thread
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-		$(CC) $^ -o $@ $(CFLAGS)
+		$(CC) $^ -o $@ $(WFLAGS)
 
 clean:
 	@	rm -rf $(OBJS)

@@ -6,7 +6,7 @@
 /*   By: alsanche <alsanche@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 15:13:47 by alsanche          #+#    #+#             */
-/*   Updated: 2022/08/10 13:35:30 by alsanche         ###   ########lyon.fr   */
+/*   Updated: 2022/08/12 18:12:08 by alsanche         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@
 
 typedef struct s_philo
 {
-	size_t			last_eat;
-	size_t			time_init;
+	long			last_eat;
 	int				name;
 	int				n_foods;
 	pthread_t		*id;
@@ -49,7 +48,7 @@ typedef struct s_table
 	int				time_to_sleep;
 	int				n_of_foods;
 	int				die;
-	size_t			t_init;
+	long			t_init;
 	t_philo			**philo;
 	pthread_mutex_t	print;
 	pthread_mutex_t	life;
@@ -73,7 +72,7 @@ void		*philo_run(void *void_philo);
 
 void		its_a_life(t_philo **philo, t_table *table);
 void		free_exit(t_table *table, t_philo **philo);
-size_t		time_now(void);
+long		time_now(void);
 void		print_action(t_philo *philo, char *msn, char *color);
 
 #endif
